@@ -29,7 +29,11 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: './dist'
+    static: {
+      directory: path.join(__dirname, 'public'), // Adjust to your static files directory
+    },
+    port: 3000, 
+    historyApiFallback: true,
   },
   resolve: {
     extensions: ['.js', '.jsx']
