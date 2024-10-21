@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
 import AddAssignment from './components/AddAssignment';
-import './styles.css';
+// import './styles.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -13,24 +13,26 @@ function App() {
     setAssignments(storedAssignments);
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('assignments', JSON.stringify(assignments));
-  }, [assignments]);
+  const saveAssignments = (updatedAssignments) => {
+    setAssignments(updatedAssignments);
+    localStorage.setItem('assignments', JSON.stringify(updatedAssignments));
+  };
 
   const addAssignment = (newAssignment) => {
-    setAssignments([...assignments, newAssignment]);
-    setShowMode(false);
+    const newAssignments = [...assignments, newAssignment];
+    saveAssignments(newAssignments);
   };
 
   const deleteAssignment = (id) => {
-    setAssignments(assignments.filter((assignment) => assignment.id !== id));
+    const updatedAssignments = assignments.filter(assignment => assignment.id !== id);
+    saveAssignments(updatedAssignments);
   };
 
   const updateAssignment = (updatedAssignment) => {
     const updatedAssignments = assignments.map((assignment) =>
       assignment.id === updatedAssignment.id ? updatedAssignment : assignment
     );
-    setAssignments(updatedAssignments);
+    saveAssignments(updatedAssignments);
   };
 
   return (
